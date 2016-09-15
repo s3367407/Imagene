@@ -9,5 +9,4 @@ public interface ICodec
 {	
 	public PixelMatrix decode(Pixel p);
 	public PixelMatrix decode(BufferedImage b);
-	public BufferedImage encode(PixelMatrix m);
 }

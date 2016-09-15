@@ -1,8 +1,7 @@
 package ImageGen.Manipulator.Interfaces;
 
-import ImageGen.Models.Pixel;
-
+@FunctionalInterface
 public interface IManipulator 
 {
-	Pixel manipulate(Pixel a, Pixel b);
+	public double manipulate(int x,int y);
 }

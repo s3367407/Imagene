@@ -5,14 +5,12 @@ import java.awt.image.BufferedImage;
 import ImageGen.Codec.Interfaces.ICodec;
 import ImageGen.Decoder.Decoder;
 import ImageGen.Decoder.Interfaces.IDecoder;
-import ImageGen.Encoder.Interfaces.IEncoder;
 import ImageGen.Models.Pixel;
 import ImageGen.Models.PixelMatrix;
 
 public class Codec implements ICodec 
 {
 	private IDecoder decoder;
-	private IEncoder encoder;
 	
 	public Codec()
 	{
@@ -23,12 +21,6 @@ public class Codec implements ICodec
 	public PixelMatrix decode(Pixel p)
 	{
 		return decoder.populate(p);
-	}
-	
-	@Override
-	public BufferedImage encode(PixelMatrix m)
-	{
-		return null;
 	}
 
 	@Override

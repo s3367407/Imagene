@@ -7,13 +7,10 @@ package ImageGen.API;
 import ImageGen.Manipulator.Interfaces.IManipulator;
 import ImageGen.Models.Pixel;
 import ImageGen.Models.PixelMatrix;
-// Default Algorithms
-import ImageGen.Manipulator.Algorithms.PlusPixel;
-import ImageGen.Manipulator.Algorithms.MinusPixel;
+import ImageGen.Timer;
 import ImageGen.API.Interfaces.IProgramInterface;
 import ImageGen.Codec.Codec;
 import ImageGen.Codec.Interfaces.ICodec;
-import ImageGen.Manipulator.Algorithms.CosPixel;
 
 public class ProgramInterface implements IProgramInterface
 {
@@ -23,84 +20,51 @@ public class ProgramInterface implements IProgramInterface
 	{
 		codec = new Codec();
 	}
-
+	
 	@Override
-	public void add(Pixel a, Pixel b, IManipulator m) {
-		PixelMatrix image1, image2, image3;
+	public PixelMatrix CreateImage(int x, int y, IManipulator m)
+	{
+		long startTime = Timer.start();
+		PixelMatrix matrix = new PixelMatrix(x, y);
+		double min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
 		
-		image1 = codec.decode(a);
-		image2 = codec.decode(b);
+		for(int dimY = 0; dimY < y; dimY++)
+		{
+			for(int dimX = 0; dimX < x; dimX++)
+			{
+				Pixel p = new Pixel(m.manipulate(dimX, dimY));
+				if(p.magnitude() > max) max = p.magnitude();
+				if(p.magnitude() < min) min = p.magnitude();
+				matrix.set(dimX, dimY, p);
+			}
+		}
+		matrix = ScaleImage(matrix, min, max);
+		long totalTime = Timer.stop(startTime);
 		
-		System.out.println("Image1 :");
-		image1.print();
-		System.out.println("Image2 :");
-		image2.print();
-		
-		image3 = manipulate(image1, image2, m);
-		
-		System.out.println("Image1 + Image2 :");
-		image3.print();
-		System.out.println();
-	}
-
-	@Override
-	public void subtract(Pixel a, Pixel b, IManipulator m) {
-		PixelMatrix image1, image2, image3;
-		
-		image1 = codec.decode(a);
-		image2 = codec.decode(b);
-		
-		System.out.println("Image1 :");
-		image1.print();
-		System.out.println("Image2 :");
-		image2.print();
-		
-		image3 = manipulate(image1, image2, m);
-		
-		System.out.println("Image1 - Image2 :");
-		image3.print();
-		System.out.println();
-	}
-
-	@Override
-	public void cos(Pixel a, Pixel b, IManipulator m) {
-		PixelMatrix image1, image2, image3;
-		
-		image1 = codec.decode(a);
-		image2 = codec.decode(b);
-		
-		System.out.println("Image1 :");
-		image1.print();
-		System.out.println("Image2 :");
-		image2.print();
-		
-		image3 = manipulate(image1, image2, m);
-		
-		System.out.println("Image1 acos Image2 :");
-		image3.print();
-		System.out.println();
+		System.out.println(" CREATED in "+totalTime+" milliseconds.");
+		return matrix;
 	}
 	
-	private PixelMatrix manipulate(PixelMatrix a, PixelMatrix b, IManipulator m)
+	private PixelMatrix ScaleImage(PixelMatrix m, double min, double max)
 	{
-		for(int i = 0; i < a.get()[0].length; i++)
-			for(int j = 0; j < a.get().length; j++)
-				a.set(i, j, m.manipulate(a.get(j, i), b.get(j, i)));
+		long startTime = Timer.start();
+		int x = m.xSize(), y = m.ySize();
 		
-		return new PixelMatrix(a);
+		for(int dimY = 0; dimY < y; dimY++)
+		{
+			for(int dimX = 0; dimX < x; dimX++)
+			{
+				m.set(dimX, dimY, new Pixel(ScalePixel(m.get(dimX, dimY).magnitude(), min, max)));
+			}
+		}
+		
+		long totalTime = Timer.stop(startTime);
+		
+		System.out.print("Image of size ["+x+"x"+y+"] SCALED in "+totalTime+" milliseconds,");
+		return m;		
 	}
 	
-	private Pixel manipulate(Pixel a, Pixel b, IManipulator m)
-	{
-		return m.manipulate(a, b);
+	private short ScalePixel(double magnitude, double min, double max) {
+		  return (short)Math.round(255 * (magnitude - min) / (max - min));
 	}
-
-	@Override
-	public void add(Pixel a, Pixel b) { add(a, b, new PlusPixel());	}
-
-	@Override
-	public void subtract(Pixel a, Pixel b) { subtract(a, b, new MinusPixel()); }
-
-	@Override
-	public void cos(Pixel a, Pixel b) { cos(a, b, new CosPixel()); }
 }

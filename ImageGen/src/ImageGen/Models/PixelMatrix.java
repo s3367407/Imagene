@@ -7,12 +7,13 @@ public class PixelMatrix
 	public PixelMatrix(int xDim, int yDim)
 	{
 		matrix = new Pixel[xDim][yDim];
+		set(new Pixel(0, 0, 0));
 	}
 	
 	public PixelMatrix(Pixel p, int size) 
 	{ 
 		matrix = new Pixel[size][size]; 
-		set(p); 
+		set(p);
 	}
 	
 	public PixelMatrix() { }
@@ -66,5 +67,15 @@ public class PixelMatrix
 			}
 			System.out.println();
 		}
+	}
+	
+	public int xSize()
+	{
+		return matrix[0].length; 
+	}
+	
+	public int ySize()
+	{
+		return matrix.length;
 	}
 }
