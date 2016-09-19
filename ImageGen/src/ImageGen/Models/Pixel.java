@@ -57,10 +57,8 @@ public class Pixel
 	public short set(short a)
 	{
 		short result;
-		if(a == 0)
-			result = (short) 0;
 		if(a % 255 == 0)
-			result = (short) 255;
+			result = (short) 0;
 		else
 			result = (short) (a % 255);
 		

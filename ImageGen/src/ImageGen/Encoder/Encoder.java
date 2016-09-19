@@ -4,5 +4,8 @@ import ImageGen.Encoder.Interfaces.IEncoder;
 
 public class Encoder implements IEncoder 
 {
-
+	public Encoder()
+	{
+		
+	}
 }
