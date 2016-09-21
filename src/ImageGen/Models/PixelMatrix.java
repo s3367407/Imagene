@@ -1,13 +1,6 @@
 package ImageGen.Models;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import ImageGen.Polar.Coordinate;
+import ImageGen.Polar.Models.Coordinate;
 
 public class PixelMatrix 
 {
@@ -106,40 +99,33 @@ public class PixelMatrix
 	
 	public int[] getIntArray()
 	{
-		int rgb = 0, i = 0,	width = matrix[0].length, height = matrix.length;
+		int i = 0,	width = matrix[0].length, height = matrix.length;
 		int[] iArray = new int[width*height];
 		
 		for(int y = 0; y < height; y++)
 		{
 			for(int x = 0; x < width; x++)
 			{
-				rgb = (int)matrix[Math.abs(y-2)][Math.abs(x-2)].b();
-				rgb = (rgb << 16) + (int)matrix[Math.abs(y-2)][Math.abs(x-2)].r();
-				rgb = (rgb << 8) + (int)matrix[Math.abs(y-2)][Math.abs(x-2)].g();
-				
-				iArray[i++] = rgb;
+				iArray[i++] = getRGB(matrix[y][x].r(), matrix[y][x].g(), matrix[y][x].b());
 			}
 		}
 		
 		return iArray;
 	}
 	
-	public int[] polarConversion()
+	//TODO this is wrong. :c
+	public int[] getPolarArray()
 	{
-		int rgb = 0, i = 0,	width = matrix[0].length, height = matrix.length;
+		int  width = matrix[0].length, height = matrix.length;
 		int[][] pArray = new int[height][width];
 		
 		for(int y = 0; y < height; y++)
 		{
 			for(int x = 0; x < width; x++)
 			{
-				Coordinate c = getPolarCoordFromCartesian(y, x, height); 
-				rgb = (int)matrix[Math.abs(y-2)][Math.abs(x-2)].b();
-				rgb = (rgb << 16) + (int)matrix[Math.abs(y-2)][Math.abs(x-2)].r();
-				rgb = (rgb << 8) + (int)matrix[Math.abs(y-2)][Math.abs(x-2)].g();
-				
+				Coordinate c = getPolarCoordFromCartesian(y, x, height);
 				try {
-					pArray[c.y][c.x] = c.y+c.x;//rgb;
+					pArray[c.y][c.x] = getRGB(matrix[y][x].r(), matrix[y][x].g(), matrix[y][x].b());
 				} catch(Exception ex) {  }
 			}
 		}
@@ -147,15 +133,15 @@ public class PixelMatrix
 		return dimensionalConversion(pArray);
 	}
 	
-	//Change this
-	private int[] dimensionalConversion (int[][] arr)
+	//TODO Change this
+	private int[] dimensionalConversion (int[][] array2D)
 	{
-		int[] array = new int[arr.length*arr[0].length];
+		int[] array = new int[array2D.length*array2D[0].length];
 		int i = 0;
-	    for (int y= 0; y < arr.length; y++) {
-	        for (int x = 0; x < arr[i].length; x++) {
+	    for (int y= 0; y < array2D.length; y++) {
+	        for (int x = 0; x < array2D[i].length; x++) {
 	        	try {
-	        		array[i] = arr[y][x];
+	        		array[i] = array2D[y][x];
 	        	} catch (Exception ex) {
 	        		System.err.println("["+y+","+x+"] = "+i);
 	        	}
@@ -176,7 +162,7 @@ public class PixelMatrix
 			q = 0;
 		}
 		
-		return new Coordinate((int)x, scale(y, height));
+		return new Coordinate((int)r, scale(q, height));
 	}
 	
 	private int scale(double magnitude, double max) {
@@ -186,5 +172,14 @@ public class PixelMatrix
 	public int getSize()
 	{
 		return matrix[0].length * matrix.length;
+	}
+	
+	private int getRGB(int r, int g, int b)
+	{
+		int rgb = b;
+		rgb = (rgb << 16) + r;
+		rgb = (rgb << 8) + g;
+		
+		return rgb;
 	}
 }

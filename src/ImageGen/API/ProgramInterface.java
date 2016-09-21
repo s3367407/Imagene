@@ -4,16 +4,13 @@ import ImageGen.Models.Pixel;
 import ImageGen.Models.PixelMatrix;
 import ImageGen.Timer;
 import ImageGen.API.Interfaces.IProgramInterface;
-import ImageGen.Codec.Codec;
-import ImageGen.Codec.Interfaces.ICodec;
 
 public class ProgramInterface implements IProgramInterface
 {
-	private ICodec codec;
 	
 	public ProgramInterface()
 	{
-		codec = new Codec();
+		
 	}
 	
 	@Override

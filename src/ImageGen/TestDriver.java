@@ -1,5 +1,4 @@
-/** Commenting for android sanity.
-package ImageGen;
+/*package ImageGen;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
@@ -10,22 +9,19 @@ import javax.imageio.ImageIO;
 
 import ImageGen.API.ProgramInterface;
 import ImageGen.API.Interfaces.IProgramInterface;
-import ImageGen.Manipulator.Interfaces.IManipulator;
 import ImageGen.Models.PixelMatrix;
 
 public class TestDriver 
 {
 	static IProgramInterface api;
-	static IManipulator function; 
+	static PixelMatrix p;
 	
 	public static void main(String[] args) 
 	{
 		api = new ProgramInterface();
-		PixelMatrix p = api.CreateImage(300, 300, function = 
-				(x, y) -> (double) ( Math.pow(x, 2) + Math.pow(y, 2) ));
+		p = api.CreateImage(10, 10, (x, y) -> (double) ( Math.pow(x, 2) + Math.pow(y, 2) ));
 		
-		//Doesn't work yet
-		//draw(p, p.polarConversion(), "x2+y2polar0origin.png");
+		draw(p, p.getIntArray(), "x+y.png");
 	}
 	
 	public static RenderedImage makeImage(int width, int height, int[] data)
