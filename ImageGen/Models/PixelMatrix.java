@@ -1,7 +1,13 @@
 package ImageGen.Models;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import ImageGen.Polar.Coordinate;
 
 public class PixelMatrix 
 {
@@ -98,7 +104,7 @@ public class PixelMatrix
 		return bArray;
 	}
 	
-	public int[] getGreyScaleIntArray()
+	public int[] getIntArray()
 	{
 		int rgb = 0, i = 0,	width = matrix[0].length, height = matrix.length;
 		int[] iArray = new int[width*height];
@@ -116,6 +122,65 @@ public class PixelMatrix
 		}
 		
 		return iArray;
+	}
+	
+	public int[] polarConversion()
+	{
+		int rgb = 0, i = 0,	width = matrix[0].length, height = matrix.length;
+		int[][] pArray = new int[height][width];
+		
+		for(int y = 0; y < height; y++)
+		{
+			for(int x = 0; x < width; x++)
+			{
+				Coordinate c = getPolarCoordFromCartesian(y, x, height); 
+				rgb = (int)matrix[Math.abs(y-2)][Math.abs(x-2)].b();
+				rgb = (rgb << 16) + (int)matrix[Math.abs(y-2)][Math.abs(x-2)].r();
+				rgb = (rgb << 8) + (int)matrix[Math.abs(y-2)][Math.abs(x-2)].g();
+				
+				try {
+					pArray[c.y][c.x] = c.y+c.x;//rgb;
+				} catch(Exception ex) {  }
+			}
+		}
+		
+		return dimensionalConversion(pArray);
+	}
+	
+	//Change this
+	private int[] dimensionalConversion (int[][] arr)
+	{
+		int[] array = new int[arr.length*arr[0].length];
+		int i = 0;
+	    for (int y= 0; y < arr.length; y++) {
+	        for (int x = 0; x < arr[i].length; x++) {
+	        	try {
+	        		array[i] = arr[y][x];
+	        	} catch (Exception ex) {
+	        		System.err.println("["+y+","+x+"] = "+i);
+	        	}
+	            i++;
+	        }
+	    } 
+	    return array;
+	}
+	
+	private Coordinate getPolarCoordFromCartesian(int y, int x, int height)
+	{
+		double r, q;
+		
+		r = Math.sqrt(Math.pow(y, 2) + Math.pow(x, 2));
+		try {
+			q = Math.toDegrees(Math.atan2((double)y,(double)x));
+		} catch(Exception e) {
+			q = 0;
+		}
+		
+		return new Coordinate((int)x, scale(y, height));
+	}
+	
+	private int scale(double magnitude, double max) {
+		  return (int)Math.round(max * magnitude/max);
 	}
 	
 	public int getSize()
