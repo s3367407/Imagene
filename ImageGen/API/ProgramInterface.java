@@ -1,9 +1,9 @@
-package ImageGen.API;
-import ImageGen.Manipulator.Interfaces.IManipulator;
-import ImageGen.Models.Pixel;
-import ImageGen.Models.PixelMatrix;
-import ImageGen.Timer;
-import ImageGen.API.Interfaces.IProgramInterface;
+package imagene.backend.ImageGen.API;
+import imagene.backend.ImageGen.Manipulator.Interfaces.IManipulator;
+import imagene.backend.ImageGen.Models.Pixel;
+import imagene.backend.ImageGen.Models.PixelMatrix;
+import imagene.backend.ImageGen.Timer;
+import imagene.backend.ImageGen.API.Interfaces.IProgramInterface;
 
 public class ProgramInterface implements IProgramInterface
 {

@@ -1,4 +1,4 @@
-package ImageGen.Models;
+package imagene.backend.ImageGen.Models;
 
 public class Pixel
 {

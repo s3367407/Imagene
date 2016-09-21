@@ -1,6 +1,6 @@
-package ImageGen.Models;
+package imagene.backend.ImageGen.Models;
 
-import ImageGen.Polar.Models.Coordinate;
+import imagene.backend.ImageGen.Polar.Models.Coordinate;
 
 public class PixelMatrix 
 {
