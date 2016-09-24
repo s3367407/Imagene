@@ -1,4 +1,4 @@
-package ImageGen;
+package imagene.backend.ImageGen;
 
 import java.util.Calendar;
 

@@ -1,4 +1,4 @@
-package ImageGen.Manipulator.Interfaces;
+package imagene.backend.ImageGen.Manipulator.Interfaces;
 
 public interface IManipulator 
 {

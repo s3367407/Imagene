@@ -1,4 +1,4 @@
-package ImageGen.Polar.Models;
+package imagene.backend.ImageGen.Polar.Models;
 
 public class Coordinate 
 {

@@ -1,7 +1,7 @@
-package ImageGen.API.Interfaces;
+package imagene.backend.ImageGen.API.Interfaces;
 
-import ImageGen.Manipulator.Interfaces.IManipulator;
-import ImageGen.Models.PixelMatrix;
+import imagene.backend.ImageGen.Manipulator.Interfaces.IManipulator;
+import imagene.backend.ImageGen.Models.PixelMatrix;
 
 public interface IProgramInterface 
 {
