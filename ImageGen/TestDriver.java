@@ -1,5 +1,5 @@
-/*package ImageGen;
-
+package ImageGen;
+/*
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.File;
@@ -24,8 +24,9 @@ public class TestDriver
 		draw(p, p.getIntArray(), "x+y.png");
 	}
 	
-	public static RenderedImage makeImage(int width, int height, int[] data)
+	public static RenderedImage makeImage(int width, int height, PixelMatrix m)
 	{
+		int[] data = m.getIntArray();
 	    BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 	    System.out.println("WIDTH: " + width + ", HEIGHT: "+ height);
 	    image.setRGB(0, 0, width, height, data, 0, width);
