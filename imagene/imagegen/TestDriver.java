@@ -1,5 +1,4 @@
-package ImageGen;
-/*
+package imagene.imagegen;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.File;
@@ -7,26 +6,24 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import ImageGen.API.ProgramInterface;
-import ImageGen.API.Interfaces.IProgramInterface;
-import ImageGen.Models.PixelMatrix;
-
+import imagene.imagegen.models.PixelMatrix;
 public class TestDriver 
 {
-	static IProgramInterface api;
-	static PixelMatrix p;
+	static imagene.imagegen.api.interfaces.IProgramInterface api;
+	static imagene.imagegen.models.PixelMatrix p;
+	static imagene.imagegen.manipulator.interfaces.IManipulator function;
 	
 	public static void main(String[] args) 
 	{
-		api = new ProgramInterface();
-		p = api.CreateImage(10, 10, (x, y) -> (double) ( Math.pow(x, 2) + Math.pow(y, 2) ));
+		api = new imagene.imagegen.api.ProgramInterface();
+		p = api.CreatePolarImage(50, 50, 100, 100, new imagene.imagegen.manipulator.interfaces.IManipulator[] { (x, y) -> (x + y), (x, y) -> (x - y), (x, y) -> (x * y) });
 		
 		draw(p, p.getIntArray(), "x+y.png");
 	}
 	
-	public static RenderedImage makeImage(int width, int height, PixelMatrix m)
+	public static RenderedImage makeImage(int width, int height, int[] m)
 	{
-		int[] data = m.getIntArray();
+		int[] data = m;
 	    BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 	    System.out.println("WIDTH: " + width + ", HEIGHT: "+ height);
 	    image.setRGB(0, 0, width, height, data, 0, width);
@@ -43,4 +40,4 @@ public class TestDriver
 			e.printStackTrace();
 		}
 	}
-}*/
+}
