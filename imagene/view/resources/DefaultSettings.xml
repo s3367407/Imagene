@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<setting>
+     <coordinate>Cartesian</coordinate>
+     <symmetry>Symmetric</symmetry>
+     <imageWidth>50</imageWidth>
+     <imageHeight>50</imageHeight>
+</setting>
